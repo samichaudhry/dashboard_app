@@ -38,11 +38,11 @@ class BarChartWithTitle extends StatelessWidget {
       {double width = 20}) {
     return [
       makeGroupData(0, 17, color, width),
-      makeGroupData(1, 7, color, width),
-      makeGroupData(2, 9, color, width),
+      makeGroupData(1, 15, color, width),
+      makeGroupData(2, 20, color, width),
       makeGroupData(3, 15, color, width),
-      makeGroupData(4, 6, color, width),
-      makeGroupData(5, 8, color, width),
+      makeGroupData(4, 10, color, width),
+      makeGroupData(5, 17, color, width),
       makeGroupData(6, 20, color, width),
     ];
   }
