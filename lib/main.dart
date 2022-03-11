@@ -6,7 +6,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle("App Name");
-    setWindowMinSize(const Size(1100, 750));
+    setWindowMinSize(const Size(1100, 720));
     setWindowMaxSize(Size.infinite);
   }
   runApp(const MyApp());
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'App Name',
       darkTheme: ThemeData.dark(),
-      theme: ThemeData(primarySwatch: Colors.purple),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(),
     );
   }
@@ -35,11 +35,26 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   int selectedTab = 0;
+  late TabController _tabController;
+
+  final BoxDecoration _boxDecoration = BoxDecoration(
+      color: const Color.fromARGB(255, 181, 144, 187),
+      borderRadius: BorderRadius.circular(10));
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -53,27 +68,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 10, bottom: 10),
+                      padding: const EdgeInsets.only(right: 10),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Expanded(
                             child: Container(
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 181, 144, 187),
-                                  borderRadius: BorderRadius.circular(20)),
+                              decoration: _boxDecoration,
                             ),
                           ),
                           Expanded(
                             flex: 2,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 18.0),
+                              padding: const EdgeInsets.only(top: 10.0),
                               child: Container(
-                                decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 181, 144, 187),
-                                    borderRadius: BorderRadius.circular(20)),
+                                decoration: _boxDecoration,
                               ),
                             ),
                           )
@@ -82,14 +91,142 @@ class _MyHomePageState extends State<MyHomePage> {
                     )),
                 Expanded(
                   flex: 6,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10, bottom: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 181, 144, 187),
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                  ),
+                  child: Container(
+                      decoration: _boxDecoration,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8, left: 8, right: 8),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                                color: const Color.fromARGB(
+                                                    255, 218, 184, 223),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: TabBar(
+                                              tabs: const [
+                                                Tab(text: "Active"),
+                                                Tab(text: "Passed")
+                                              ],
+                                              controller: _tabController,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 6,
+                                    child: TabBarView(
+                                      controller: _tabController,
+                                      children: [
+                                        ListView.builder(
+                                          itemCount: 5,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.2,
+                                                decoration: BoxDecoration(
+                                                    color: const Color.fromARGB(
+                                                        255, 218, 184, 223),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned(
+                                                      right: 15,
+                                                      bottom: 15,
+                                                      child: ElevatedButton(
+                                                          child: const Text(
+                                                              "Active"),
+                                                          onPressed: () {}),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        ListView.builder(
+                                          itemCount: 5,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.2,
+                                                decoration: BoxDecoration(
+                                                    color: const Color.fromARGB(
+                                                        255, 218, 184, 223),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned(
+                                                      right: 15,
+                                                      bottom: 15,
+                                                      child: ElevatedButton(
+                                                          child: const Text(
+                                                              "Active"),
+                                                          onPressed: () {}),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Stack(children: [
+                                        Positioned(
+                                          right: 10,
+                                          bottom: 10,
+                                          child: FloatingActionButton(
+                                            onPressed: () {},
+                                            child: const Icon(Icons.add),
+                                          ),
+                                        ),
+                                      ]),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
                 )
               ],
             ),
