@@ -14,6 +14,7 @@ class _TabPanelState extends State<TabPanel>
   final ScrollController _scrollController = ScrollController();
   late TabController _tabController;
   var buttonState = "Active";
+  int totalTask = 0;
   String address = 'Address 1';
   double price = 2340;
   String function = 'Function Data';
@@ -69,7 +70,7 @@ class _TabPanelState extends State<TabPanel>
                     children: [
                       ListView.builder(
                         controller: _scrollController,
-                        itemCount: 5,
+                        itemCount: totalTask,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -142,7 +143,7 @@ class _TabPanelState extends State<TabPanel>
                       ),
                       ListView.builder(
                         controller: _scrollController,
-                        itemCount: 5,
+                        itemCount: totalTask,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -226,7 +227,11 @@ class _TabPanelState extends State<TabPanel>
                         child: FloatingActionButton(
                           backgroundColor: Colors.black,
                           foregroundColor: Colors.white,
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              totalTask = totalTask + 1;
+                            });
+                          },
                           child: const Icon(Icons.add),
                         ),
                       ),
