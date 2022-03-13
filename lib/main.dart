@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:dashboard_app/address_summary_section.dart';
+import 'package:dashboard_app/tab_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 
@@ -37,19 +39,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  int selectedTab = 0;
-  late TabController _tabController;
-
   final BoxDecoration _boxDecoration = BoxDecoration(
       color: const Color.fromARGB(255, 181, 144, 187),
       borderRadius: BorderRadius.circular(10));
-
-  @override
-  void initState() {
-    super.initState();
-
-    _tabController = TabController(length: 2, vsync: this);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,168 +57,16 @@ class _MyHomePageState extends State<MyHomePage>
             child: Row(
               children: [
                 //  Grid Layout
-                Expanded(
+                const Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: _boxDecoration,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Container(
-                                decoration: _boxDecoration,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      padding: EdgeInsets.only(right: 10),
+                      child: AddressSummarySection(),
                     )),
                 Expanded(
                   flex: 6,
                   child: Container(
-                      decoration: _boxDecoration,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, left: 8, right: 8),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.5,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                                color: const Color.fromARGB(
-                                                    255, 218, 184, 223),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: TabBar(
-                                              tabs: const [
-                                                Tab(text: "Active"),
-                                                Tab(text: "Passed")
-                                              ],
-                                              controller: _tabController,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 6,
-                                    child: TabBarView(
-                                      controller: _tabController,
-                                      children: [
-                                        ListView.builder(
-                                          itemCount: 5,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.2,
-                                                decoration: BoxDecoration(
-                                                    color: const Color.fromARGB(
-                                                        255, 218, 184, 223),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Stack(
-                                                  children: [
-                                                    Positioned(
-                                                      right: 15,
-                                                      bottom: 15,
-                                                      child: ElevatedButton(
-                                                          child: const Text(
-                                                              "Active"),
-                                                          onPressed: () {}),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                        ListView.builder(
-                                          itemCount: 5,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.2,
-                                                decoration: BoxDecoration(
-                                                    color: const Color.fromARGB(
-                                                        255, 218, 184, 223),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Stack(
-                                                  children: [
-                                                    Positioned(
-                                                      right: 15,
-                                                      bottom: 15,
-                                                      child: ElevatedButton(
-                                                          child: const Text(
-                                                              "Active"),
-                                                          onPressed: () {}),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Stack(children: [
-                                        Positioned(
-                                          right: 10,
-                                          bottom: 10,
-                                          child: FloatingActionButton(
-                                            onPressed: () {},
-                                            child: const Icon(Icons.add),
-                                          ),
-                                        ),
-                                      ]),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
+                      decoration: _boxDecoration, child: const TabPanel()),
                 )
               ],
             ),
