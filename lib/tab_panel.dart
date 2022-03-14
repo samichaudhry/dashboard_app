@@ -13,7 +13,8 @@ class _TabPanelState extends State<TabPanel>
     with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   late TabController _tabController;
-  var buttonState = "Active";
+  late List<bool> buttonsIndex =
+      List.generate(totalTask + 1, (totalTask) => true, growable: true);
   int totalTask = 0;
   String address = 'Address 1';
   double price = 2340;
@@ -68,10 +69,13 @@ class _TabPanelState extends State<TabPanel>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
+                      // Active Tab
                       ListView.builder(
                         controller: _scrollController,
                         itemCount: totalTask,
                         itemBuilder: (context, index) {
+                          final pressedButton = buttonsIndex[index];
+                          var buttonState = "Active";
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -117,21 +121,19 @@ class _TabPanelState extends State<TabPanel>
                                     bottom: 12,
                                     child: ElevatedButton(
                                         style: ButtonStyle(
-                                          backgroundColor:
-                                              buttonState == 'Active'
-                                                  ? MaterialStateProperty.all(
-                                                      Colors.black)
-                                                  : MaterialStateProperty.all(
-                                                      Colors.grey[400]),
+                                          backgroundColor: pressedButton
+                                              ? MaterialStateProperty.all(
+                                                  Colors.black)
+                                              : MaterialStateProperty.all(
+                                                  Colors.grey[400]),
                                         ),
-                                        child: Text(buttonState),
+                                        child: pressedButton
+                                            ? Text(buttonState)
+                                            : const Text("In-Active"),
                                         onPressed: () {
                                           setState(() {
-                                            if (buttonState == "Active") {
-                                              buttonState = "In-Active";
-                                            } else {
-                                              buttonState = "Active";
-                                            }
+                                            buttonsIndex[index] =
+                                                !pressedButton;
                                           });
                                         }),
                                   )
@@ -141,10 +143,13 @@ class _TabPanelState extends State<TabPanel>
                           );
                         },
                       ),
+                      // Passed Tab
                       ListView.builder(
                         controller: _scrollController,
                         itemCount: totalTask,
                         itemBuilder: (context, index) {
+                          final pressedButton = buttonsIndex[index];
+                          var buttonState = "Active";
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -190,21 +195,19 @@ class _TabPanelState extends State<TabPanel>
                                     bottom: 12,
                                     child: ElevatedButton(
                                         style: ButtonStyle(
-                                          backgroundColor:
-                                              buttonState == 'Active'
-                                                  ? MaterialStateProperty.all(
-                                                      Colors.black)
-                                                  : MaterialStateProperty.all(
-                                                      Colors.grey[400]),
+                                          backgroundColor: pressedButton
+                                              ? MaterialStateProperty.all(
+                                                  Colors.black)
+                                              : MaterialStateProperty.all(
+                                                  Colors.grey[400]),
                                         ),
-                                        child: Text(buttonState),
+                                        child: pressedButton
+                                            ? Text(buttonState)
+                                            : const Text("In-Active"),
                                         onPressed: () {
                                           setState(() {
-                                            if (buttonState == "Active") {
-                                              buttonState = "In-Active";
-                                            } else {
-                                              buttonState = "Active";
-                                            }
+                                            buttonsIndex[index] =
+                                                !pressedButton;
                                           });
                                         }),
                                   )
