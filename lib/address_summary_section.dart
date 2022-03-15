@@ -54,7 +54,7 @@ class _AddressSummarySectionState extends State<AddressSummarySection> {
 // Address Summary Section
   Padding addressSummary(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: Column(
         children: [
           Container(
