@@ -17,6 +17,7 @@ Widget customTextField(context, title, data) {
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
+            color: Colors.black,
           ),
         ),
         Container(
@@ -53,6 +54,7 @@ Widget customTextFormField(
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
+            color: Colors.black,
           ),
         ),
         Container(
