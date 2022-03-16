@@ -12,7 +12,10 @@ class TabPanel extends StatefulWidget {
 class _TabPanelState extends State<TabPanel>
     with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
-
+  final List<GlobalKey<FormState>> _formKey = [];
+  final List<TextEditingController> _addressController = [];
+  final List<TextEditingController> _priceController = [];
+  final List<TextEditingController> _functionController = [];
   late TabController _tabController;
 
   int totalTask = 0;
@@ -85,114 +88,99 @@ class _TabPanelState extends State<TabPanel>
                                   color:
                                       const Color.fromARGB(255, 218, 184, 223),
                                   borderRadius: BorderRadius.circular(10)),
-                              child: Builder(builder: (context) {
-                                final GlobalKey<FormState> _formKey =
-                                    GlobalKey<FormState>();
-                                final TextEditingController _addressController =
-                                    TextEditingController();
-                                final TextEditingController _priceController =
-                                    TextEditingController();
-                                final TextEditingController
-                                    _functionController =
-                                    TextEditingController();
-
-                                return Form(
-                                  key: _formKey,
-                                  child: Stack(
-                                    children: [
-                                      Positioned(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          left: 20,
-                                          top: 5,
-                                          child: customTextFormField(
-                                              context,
-                                              "Address",
-                                              _addressController, (value) {
-                                            if (value!.isEmpty) {
-                                              return "Please Enter Address";
-                                            }
-                                          }, (value) {
-                                            _addressController.text = value;
-                                          })),
-                                      Positioned(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          left: 20,
-                                          top: 75,
-                                          child: customTextFormField(
-                                              context,
-                                              "Price",
-                                              _priceController, (value) {
-                                            if (value!.isEmpty) {
-                                              return "Please Enter Price";
-                                            }
-                                          }, (value) {
-                                            _priceController.text = value;
-                                          })),
-                                      Positioned(
+                              child: Form(
+                                key: _formKey[index],
+                                child: Stack(
+                                  children: [
+                                    Positioned(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.2,
-                                        left: 320,
+                                        left: 20,
                                         top: 5,
                                         child: customTextFormField(
                                             context,
-                                            "Function",
-                                            _functionController, (value) {
+                                            "Address",
+                                            _addressController[index], (value) {
                                           if (value!.isEmpty) {
-                                            return "Please Enter Its Function";
+                                            return "Please Enter Address";
                                           }
                                         }, (value) {
-                                          _functionController.text = value;
-                                        }),
-                                      ),
-                                      Positioned(
+                                          _addressController[index].text =
+                                              value;
+                                        })),
+                                    Positioned(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.2,
-                                        left: 320,
+                                        left: 20,
                                         top: 75,
-                                        child: customTextField(context, "Date",
-                                            intl.DateFormat.yMd().format(date)),
-                                      ),
-                                      Positioned(
-                                        right: 20,
-                                        bottom: 20,
-                                        child: ElevatedButton(
-                                            style: ButtonStyle(
-                                              backgroundColor: pressedButton
-                                                  ? MaterialStateProperty.all(
-                                                      Colors.black)
-                                                  : MaterialStateProperty.all(
-                                                      Colors.grey[400]),
-                                            ),
-                                            child: pressedButton
-                                                ? Text(buttonState)
-                                                : const Text("In-Active"),
-                                            onPressed: () {
-                                              setState(() {
-                                                if (_formKey.currentState!
-                                                    .validate()) {
-                                                  buttonsIndex[index] =
-                                                      !pressedButton;
-                                                }
-                                              });
-                                            }),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }),
+                                        child: customTextFormField(
+                                            context,
+                                            "Price",
+                                            _priceController[index], (value) {
+                                          if (value!.isEmpty) {
+                                            return "Please Enter Price";
+                                          }
+                                        }, (value) {
+                                          _priceController[index].text = value;
+                                        })),
+                                    Positioned(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      left: 320,
+                                      top: 5,
+                                      child: customTextFormField(
+                                          context,
+                                          "Function",
+                                          _functionController[index], (value) {
+                                        if (value!.isEmpty) {
+                                          return "Please Enter Its Function";
+                                        }
+                                      }, (value) {
+                                        _functionController[index].text = value;
+                                      }),
+                                    ),
+                                    Positioned(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      left: 320,
+                                      top: 75,
+                                      child: customTextField(context, "Date",
+                                          intl.DateFormat.yMd().format(date)),
+                                    ),
+                                    Positioned(
+                                      right: 20,
+                                      bottom: 15,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            backgroundColor: pressedButton
+                                                ? MaterialStateProperty.all(
+                                                    Colors.black)
+                                                : MaterialStateProperty.all(
+                                                    Colors.grey[400]),
+                                          ),
+                                          child: pressedButton
+                                              ? Text(buttonState)
+                                              : const Text("In-Active"),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (_formKey[index]
+                                                  .currentState!
+                                                  .validate()) {
+                                                buttonsIndex[index] =
+                                                    !pressedButton;
+                                              }
+                                            });
+                                          }),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           );
                         },
                       ),
-
                       // Passed Tab
                       ListView.builder(
                         controller: _scrollController,
@@ -208,109 +196,95 @@ class _TabPanelState extends State<TabPanel>
                                   color:
                                       const Color.fromARGB(255, 218, 184, 223),
                                   borderRadius: BorderRadius.circular(10)),
-                              child: Builder(builder: (context) {
-                                final GlobalKey<FormState> _formKey =
-                                    GlobalKey<FormState>();
-                                final TextEditingController _addressController =
-                                    TextEditingController();
-                                final TextEditingController _priceController =
-                                    TextEditingController();
-                                final TextEditingController
-                                    _functionController =
-                                    TextEditingController();
-
-                                return Form(
-                                  key: _formKey,
-                                  child: Stack(
-                                    children: [
-                                      Positioned(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          left: 20,
-                                          top: 5,
-                                          child: customTextFormField(
-                                              context,
-                                              "Address",
-                                              _addressController, (value) {
-                                            if (value!.isEmpty) {
-                                              return "Please Enter Address";
-                                            }
-                                          }, (value) {
-                                            _addressController.text = value;
-                                          })),
-                                      Positioned(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          left: 20,
-                                          top: 75,
-                                          child: customTextFormField(
-                                              context,
-                                              "Price",
-                                              _priceController, (value) {
-                                            if (value!.isEmpty) {
-                                              return "Please Enter Price";
-                                            }
-                                          }, (value) {
-                                            _priceController.text = value;
-                                          })),
-                                      Positioned(
+                              child: Form(
+                                key: _formKey[index],
+                                child: Stack(
+                                  children: [
+                                    Positioned(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.2,
-                                        left: 320,
+                                        left: 20,
                                         top: 5,
                                         child: customTextFormField(
                                             context,
-                                            "Function",
-                                            _functionController, (value) {
+                                            "Address",
+                                            _addressController[index], (value) {
                                           if (value!.isEmpty) {
-                                            return "Please Enter Its Function";
+                                            return "Please Enter Address";
                                           }
                                         }, (value) {
-                                          _functionController.text = value;
-                                        }),
-                                      ),
-                                      Positioned(
+                                          _addressController[index].text =
+                                              value;
+                                        })),
+                                    Positioned(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.2,
-                                        left: 320,
+                                        left: 20,
                                         top: 75,
-                                        child: customTextField(context, "Date",
-                                            intl.DateFormat.yMd().format(date)),
-                                      ),
-                                      Positioned(
-                                        right: 20,
-                                        bottom: 20,
-                                        child: ElevatedButton(
-                                            style: ButtonStyle(
-                                              backgroundColor: pressedButton
-                                                  ? MaterialStateProperty.all(
-                                                      Colors.black)
-                                                  : MaterialStateProperty.all(
-                                                      Colors.grey[400]),
-                                            ),
-                                            child: pressedButton
-                                                ? Text(buttonState)
-                                                : const Text("In-Active"),
-                                            onPressed: () {
-                                              setState(() {
-                                                if (_formKey.currentState!
-                                                    .validate()) {
-                                                  buttonsIndex[index] =
-                                                      !pressedButton;
-                                                }
-                                              });
-                                            }),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }),
+                                        child: customTextFormField(
+                                            context,
+                                            "Price",
+                                            _priceController[index], (value) {
+                                          if (value!.isEmpty) {
+                                            return "Please Enter Price";
+                                          }
+                                        }, (value) {
+                                          _priceController[index].text = value;
+                                        })),
+                                    Positioned(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      left: 320,
+                                      top: 5,
+                                      child: customTextFormField(
+                                          context,
+                                          "Function",
+                                          _functionController[index], (value) {
+                                        if (value!.isEmpty) {
+                                          return "Please Enter Its Function";
+                                        }
+                                      }, (value) {
+                                        _functionController[index].text = value;
+                                      }),
+                                    ),
+                                    Positioned(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      left: 320,
+                                      top: 75,
+                                      child: customTextField(context, "Date",
+                                          intl.DateFormat.yMd().format(date)),
+                                    ),
+                                    Positioned(
+                                      right: 20,
+                                      bottom: 15,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            backgroundColor: pressedButton
+                                                ? MaterialStateProperty.all(
+                                                    Colors.black)
+                                                : MaterialStateProperty.all(
+                                                    Colors.grey[400]),
+                                          ),
+                                          child: pressedButton
+                                              ? Text(buttonState)
+                                              : const Text("In-Active"),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (_formKey[index]
+                                                  .currentState!
+                                                  .validate()) {
+                                                buttonsIndex[index] =
+                                                    !pressedButton;
+                                              }
+                                            });
+                                          }),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           );
                         },
@@ -332,6 +306,10 @@ class _TabPanelState extends State<TabPanel>
                             setState(() {
                               totalTask = totalTask + 1;
                               buttonsIndex.add(true);
+                              _formKey.add(GlobalKey<FormState>());
+                              _addressController.add(TextEditingController());
+                              _priceController.add(TextEditingController());
+                              _functionController.add(TextEditingController());
                             });
                           },
                           child: const Icon(Icons.add),
