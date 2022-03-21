@@ -88,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
                               return TextFormField(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                maxLength: 1,
                                 controller: _userName[index],
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.all(8),
